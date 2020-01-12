@@ -1,18 +1,20 @@
 package twosum
 
 import (
-	"sort"
+	"errors"
 )
 
-func twoSum(nums []int, target int) []int {
-	sort.Ints(nums)
+func twoSum(nums []int, target int) ([]int, error) {
+	m := make(map[int]int)
 
 	for i := 0; i < len(nums); i++ {
-		for x := 1; x < len(nums)-1; x++ {
-			if nums[x]+nums[i] == target {
-				return []int{i, x}
-			}
+		comp := target - nums[i]
+
+		val, ok := m[comp]
+		if ok {
+			return []int{val, i}, nil
 		}
+		m[nums[i]] = i
 	}
-	return []int{0, 0}
+	return nil, errors.New("Cannot be solved")
 }
